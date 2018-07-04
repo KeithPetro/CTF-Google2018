@@ -10,4 +10,8 @@ A PDF is attached with blacked out Username and Password fields.
 * PDF Reader - SumatraPDF
 
 ## Solution
-This one is very simple. Open the PDF with your PDF reader of choice (I used SumatraPDF), highlight the blacked out password field and then copy and paste to get the flag.
+This one is very simple. Open the PDF with your PDF reader of choice (I used SumatraPDF), highlight the blacked out password field and then copy and paste to get the flag:
+
+```
+CTF{ICanReadDis}
+```
