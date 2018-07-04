@@ -8,7 +8,7 @@ An image is attached of an email with garbled text.
 
 ## Tools Used
 * Tesseract OCR
-* 
+* resize
 
 ## Solution
 The first step is to extract the text from the image. To do this, I used Tessearct OCR:
@@ -95,4 +95,56 @@ ngvx px mmx lxvnkbmv 0ka \xkl'mnlev tgw Dg hkka um ummxvm mn vzlbglm anegxk‘ub
 Aw bwkmwkbabgz'
 ```
 
-Looking at [Tesseract OCR's wiki](https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality#rescaling), it appears that Tessearct OCR works best with images with a DPI of at least 300 dpi.
+Looking at [Tesseract OCR's wiki](https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality#rescaling), it appears that Tessearct OCR works best with images with a DPI of at least 300 dpi (presumably they are talking about pixels per inch).
+
+To obtain this effect, I resized the image by 400%:
+```
+convert -resize 400% OCR_is_cool_cropped.png OCR_is_cool_cropped_resized.png
+```
+
+This provided fairly good results:
+```
+Wxtk anmhka.
+
+Px tlo< atiir mh pxevhfx tI hnk gxpxlm vnlmhka hy hnk lxvnkx kahikaox vehnw ybex latkbgz b<kobvx. T Ityx ietvx yhk tee rhnk ybexl.
+
+Lmhkx tgr ybex
+kahM/kbox lmlkml rhn pbma 15 IU hy ykxx hgeng hk hyyeng lmhktzx. Ih rhn vtg dxxi ptlas. ubgtkbxl. itbgmbgzl. yetzl. ybkfpthl, ubmvhbgl. pkbmxnil - tgrmabgz.
+
+Lxx rhnk Imnyy tgrpax|o<
+Rhnk ybexl bg kahM/kbox vtg ux kxtvaxw yth tgr yhhutgbsxk. Iftkm ykbwzx 2000. Iftkm atnl. Mxﬁh-t-ftmbv. hk fwat iv. Lh paxkxoxk rhn zh. rhnk ybexl yheehp.
+
+Lath ybexl tgw yhekal
+Rhn vtg jnbvder bgobmx hmaxkl mh obxp. whpgehtw. tgw vheetuhktmx hg tee max ybexl rhn ptgm obt xﬂbe tmmtvafxgml. Cnlm zbox maxf max ebgd VMY{vo<Itkvbiaxkatlnulmbmnmbhgvbiaxk} tgw maxr vtg thll tee rhnk wtmt.
+
+th xqtfiex. ax|o<'l t eblm hy ybexl matm rhn'kx vnkkxgmer Imhkbgz pbma nl:
+
+hyyanu_ybkfpu0(.ubg ChagMK
+BHM_vlo:wxgmbtel.iwy\ \(wxexrnxw\) Pbgmxkfnmxw
+Yhhutgbsxk9000_thnte.iwy Pbgmxktnmxw
+
+yhh.bvh Mnkuh
+
+ngvx px mtdx lxvnkbmr oxkr b<kbhnler tgw bg hkka mh ikhmxvm rhn tztbglm onegxktubebmbxl ebdx xytbe tgw Uwyetpl. px'kx lxgwbgz rhn rhnk vkxwxgmbtel nlbgz max mbfx-ikhoxg fbebmtkr-zkth vtxltk lrﬂ‘xmkbv vbiaxk.
+
+Atiir kahM/kbobgz!
+```
+
+Now that I have (mostly) good text output, I want to try to de-garble this. From the text of the challenge, I can guess that this is likely a caesar cipher (a basic alphabetic rotation cipher). All I need to know is how many letters I need to rotate by. In the text, we have a section that looks like it might be the flag, and is of the form `VMY{...}`. Knowing that the format of a flag is `CTF{...}` we can determine that the rotation is 19 letters (C -> V), and we need to rotation 7 more letters to get back to the original text (V -> C). Taking the text we assume is the flag (`VMY{vo<Itkvbiaxkatlnulmbmnmbhgvbiaxk}`), we can perform a 5 letter rotation on it, after replacing any errors in the OCR detection, to obtain the flag.
+
+Looking at the original image, our text should be:
+```
+VMY{vtxltkvbiaxkbltlnulmbmnmbhgvbiaxk}
+```
+
+This means that our OCR failed on a few of the characters. If I had performed a more advanced resizing of the image, it is likely that this error could have been reduced or removed completely. This is something I shall look into further in the future.
+
+An easy way to perform a rotation in bash is to use `tr`:
+```
+echo "VMY{vtxltkvbiaxkbltlnulmbmnmbhgvbiaxk}" | tr '[V-ZA-Uv-za-u]' '[C-ZA-Bc-za-b]'
+```
+
+This provides us with the flag:
+```
+CTF{caesarcipherisasubstitutioncipher}
+```
