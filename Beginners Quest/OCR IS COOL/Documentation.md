@@ -141,7 +141,7 @@ This means that our OCR failed on a few of the characters. If I had performed a 
 
 An easy way to perform a rotation in bash is to use `tr`:
 ```
-echo "VMY{vtxltkvbiaxkbltlnulmbmnmbhgvbiaxk}" | tr '[V-ZA-Uv-za-u]' '[C-ZA-Bc-za-b]'
+$ echo "VMY{vtxltkvbiaxkbltlnulmbmnmbhgvbiaxk}" | tr '[V-ZA-Uv-za-u]' '[C-ZA-Bc-za-b]'
 ```
 
 This provides us with the flag:
