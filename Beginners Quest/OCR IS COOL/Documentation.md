@@ -13,7 +13,7 @@ An image is attached of an email with garbled text.
 ## Solution
 The first step is to extract the text from the image. To do this, I used Tessearct OCR:
 ```
-tesseract OCR_is_cool.png OCR_output
+$ tesseract OCR_is_cool.png OCR_output
 ```
 
 This provided me with a textfile (OCR_output.txt) with the following text within it:
