@@ -55,6 +55,7 @@ $ ltrace -e strcmp ./gatekeeper 0n3_W4rM pass
 Now we can see that our password is being compared to `zLl1ks_d4m_T0g_I`. However, we must also note that our password is being compared in reverse. Because of this, the actual password should be `I_g0T_m4d_sk1lLz`.
 
 Putting this information in gives us:
+```
 $ ./gatekeeper 0n3_W4rM I_g0T_m4d_sk1lLz
 /===========================================================================\
 |               Gatekeeper - Access your PC from everywhere!                |
